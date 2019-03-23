@@ -11,6 +11,7 @@ Database::createDatabaseInstance();
 
 if (Checker::areSetAndValidFields($_GET['licensePlate'])) {
 	Database::exec(sprintf("DELETE from vehicles WHERE licensePlate='%s'", $_GET['licensePlate']));
+	echo json_encode(array("message" => "OK."));
 } else {
 	echo json_encode(array("message" => "ERR: missing fields or invalid characters"));
 }
