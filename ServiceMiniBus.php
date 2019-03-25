@@ -12,7 +12,7 @@ if (isset($_POST['id'])) {
     $database = new Database();
     $db = $database->getConnection();
 
-    $service = new Service($db);
+    $service = new Service($db, $_POST['vehicle']);
     $data = $service->getById((int)$_POST['id']);
 
     $dataToJson = new DataToJson();
@@ -25,14 +25,26 @@ if (isset($_POST['id'])) {
     $database = new Database();
     $db = $database->getConnection();
 
-    $service = new Service($db);
+    $service = new Service($db, $_POST['vehicle']);
 
     extract($_POST);
 
     if(isset($name, $destiny, $origin, $seats, $company, $directionCompany, $transferDate, $transferTime, $description))
         $service->add($name, $destiny, $origin, (int)$seats, $company, $directionCompany, $transferDate, $transferTime, $description);
 
-} else {
+} else if (isset($_POST['all'])){
+    $database = new Database();
+    $db = $database->getConnection();
+
+    $service = new Service($db, $_POST['vehicle']);
+    $data = $service->getAll();
+
+    $dataToJson = new DataToJson();
+    $result = $dataToJson->convert($data);
+
+    http_response_code(200);
+    echo $result;
+}else {
     http_response_code(400);
     echo json_encode((array('message' => 'Error')));
 }
