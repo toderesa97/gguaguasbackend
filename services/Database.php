@@ -23,4 +23,18 @@ class Database{
         }
         return $this->conn;
     }
+
+    public function query($query, $params=null){
+        $queryprepared = $this->conn->prepare($query);
+        $queryprepared->execute($params);
+        return $queryprepared;
+    }
+
+    public function selectServiceTable($table){
+        if($table === 'minibus') return 'minibus';
+        else if ($table === 'vtc') return 'vtc';
+        else if ($table === 'mercedes') return 'mercedes';
+        else return null;
+    }
+
 }
