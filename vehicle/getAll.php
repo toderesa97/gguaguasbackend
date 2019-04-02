@@ -9,7 +9,7 @@ header("Access-Control-Allow-Methods: GET, POST");
 
 Database::createDatabaseInstance();
 
-$retrievedData = Database::query("SELECT * from vehicles");
+$retrievedData = Database::executeSQL("SELECT * from vehicles");
 if ($retrievedData) {
 	$response = array();
     foreach ($retrievedData as $row) {

@@ -7,7 +7,6 @@ class Checker {
             if (!isset($fields[$i])) return false;
             if (!self::isValidString($fields[$i])) return false;
         }
-        //die(self::isValidString("amisadai@gmail_.com"));
         return true;
     }
 
