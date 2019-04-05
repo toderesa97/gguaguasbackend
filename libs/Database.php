@@ -1,5 +1,6 @@
 <?php
 include_once 'Checker.php';
+include_once '../auth/customResponses/LoginResponse.php';
 
 class Database {
 
@@ -36,6 +37,56 @@ class Database {
             return true;
         }
         return false;
+    }
+
+    public static function areValidCredentials($username, $password) {
+        $query = "select * from users where username=?";
+        $data = Database::executeSQL($query, array($username));
+        $hashedPass = hash("sha256", $password);
+        $loginResponse = new LoginResponse();
+        if ($data != null && $data->rowCount() > 0) {
+            foreach ($data as $row) {
+                if ($row['password'] == $hashedPass) {
+                    $sessionToken = Database::generateRandomToken();
+                    Database::updateTokenForUser($username, $sessionToken);
+                    $loginResponse->setToken($sessionToken);
+                    return $loginResponse;
+                }
+            }
+        } else {
+            return $loginResponse;
+        }
+        return $loginResponse;
+    }
+
+    public static function isValidTokenForUser($username, $token) {
+        $query = "select token from users where username=?";
+        $params = array($username);
+        $data = Database::executeSQL($query, $params);
+        if ($data != null && $data->rowCount() > 0) {
+            foreach ($data as $row) {
+                if ($token == $row['token']) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static function generateRandomToken() {
+        $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $pieces = [];
+        $max = mb_strlen($keyspace, '8bit') - 1;
+        for ($i = 0; $i < 200; ++$i) {
+            $pieces []= $keyspace[random_int(0, $max)];
+        }
+        return implode('', $pieces);
+    }
+
+    public static function updateTokenForUser($username, $sessionToken) {
+        $query = "update users set token=? where username=?";
+        $params = array($sessionToken, $username);
+        Database::executeSQL($query, $params);
     }
 }
 ?>
