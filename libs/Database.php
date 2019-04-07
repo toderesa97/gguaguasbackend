@@ -42,14 +42,15 @@ class Database {
     public static function areValidCredentials($username, $password) {
         $query = "select * from users where username=?";
         $data = Database::executeSQL($query, array($username));
-        $hashedPass = hash("sha256", $password);
         $loginResponse = new LoginResponse();
         if ($data != null && $data->rowCount() > 0) {
             foreach ($data as $row) {
+                $hashedPass = hash("sha256", $password.$row['userSalt']);
                 if ($row['password'] == $hashedPass) {
                     $sessionToken = Database::generateRandomToken();
                     Database::updateTokenForUser($username, $sessionToken);
                     $loginResponse->setToken($sessionToken);
+                    $loginResponse->setUserRole($row['role']);
                     return $loginResponse;
                 }
             }
@@ -73,11 +74,25 @@ class Database {
         return false;
     }
 
-    private static function generateRandomToken() {
+    public static function isRoot($username) {
+        $query = "select role from users where username=?";
+        $params = array($username);
+        $data = Database::executeSQL($query, $params);
+        if ($data != null && $data->rowCount() > 0) {
+            foreach ($data as $row) {
+                if ($row['role'] == "root") {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static function generateRandomToken($length=200) {
         $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $pieces = [];
         $max = mb_strlen($keyspace, '8bit') - 1;
-        for ($i = 0; $i < 200; ++$i) {
+        for ($i = 0; $i < $length; ++$i) {
             $pieces []= $keyspace[random_int(0, $max)];
         }
         return implode('', $pieces);
@@ -86,6 +101,14 @@ class Database {
     public static function updateTokenForUser($username, $sessionToken) {
         $query = "update users set token=? where username=?";
         $params = array($sessionToken, $username);
+        Database::executeSQL($query, $params);
+    }
+
+    public static function addAppUser($username, $accountType, $password) {
+        $salt = self::generateRandomToken(30);
+        $hashedPass = hash("sha256", $password.$salt);
+        $query = "INSERT into users (username, password, role, token, userSalt) VALUES (?, ?, ?, ?, ?)";
+        $params =  array($username, $hashedPass, $accountType, "", $salt);
         Database::executeSQL($query, $params);
     }
 }

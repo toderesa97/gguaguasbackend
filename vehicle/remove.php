@@ -11,8 +11,8 @@ header("Access-Control-Allow-Methods: GET, POST");
 
 Database::createDatabaseInstance();
 
-if (Checker::areSetAndValidFields($_GET['licensePlate'])) {
-	Database::executeSQL("DELETE from vehicles WHERE licensePlate=?", array($_GET['licensePlate']));
+if (Checker::areSetAndValidFields($_POST['licensePlate'])) {
+	Database::executeSQL("DELETE from vehicles WHERE licensePlate=?", array($_POST['licensePlate']));
 	echo json_encode((new OkResponse())->get());
 } else {
 	echo json_encode((new MissingFieldsOrInvalidCharactersResponse())->get());

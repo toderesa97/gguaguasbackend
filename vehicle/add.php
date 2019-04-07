@@ -13,15 +13,15 @@ header("Access-Control-Allow-Methods: GET, POST");
 
 Database::createDatabaseInstance();
 
-if (Checker::areSetAndValidFields($_GET['licensePlate'], $_GET['brand'], $_GET['seats'])) {
-	if (Database::existsUniqueKeyValueOn("vehicles", "licensePlate", $_GET['licensePlate'])) {
+if (Checker::areSetAndValidFields($_POST['licensePlate'], $_POST['brand'], $_POST['seats'])) {
+	if (Database::existsUniqueKeyValueOn("vehicles", "licensePlate", $_POST['licensePlate'])) {
 		echo json_encode((new VehicleExistsResponse())->get());
 	} else {
-		if (! preg_match("/[0-9]{4}-[A-Z]{3}/i", $_GET['licensePlate'])) {
+		if (! preg_match("/[0-9]{4}-[A-Z]{3}/i", $_POST['licensePlate'])) {
 			echo json_encode((new InvalidLicensePlateFormatResponse())->get());
 		} else {
 			Database::executeSQL("INSERT into vehicles (licensePlate, brand, seats) VALUES (?, ?, ?)",
-                array($_GET['licensePlate'], $_GET['brand'], $_GET['seats']));
+                array($_POST['licensePlate'], $_POST['brand'], $_POST['seats']));
 			echo json_encode((new OkResponse())->get());
 		}
 	}
