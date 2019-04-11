@@ -11,11 +11,24 @@ header("Access-Control-Allow-Methods: GET, POST");
 
 Database::createDatabaseInstance();
 
-if (Checker::areSetAndValidFields($_POST['licensePlate'])) {
-	Database::executeSQL("DELETE from vehicles WHERE licensePlate=?", array($_POST['licensePlate']));
-	echo json_encode((new OkResponse())->get());
+function exec_() {
+
+    if (Checker::areSetAndValidFields($_POST['licensePlate'])) {
+        Database::executeSQL("DELETE from vehicles WHERE licensePlate=?", array($_POST['licensePlate']));
+        echo json_encode((new OkResponse())->get());
+    } else {
+        echo json_encode((new MissingFieldsOrInvalidCharactersResponse())->get());
+    }
+}
+
+if (Checker::areSetAndValidFields($_POST['username'], $_POST['token'])) {
+    if (Database::isValidTokenForUser($_POST['username'], $_POST['token'])) {
+        exec_();
+    } else {
+        die(json_encode((new NotAuthenticatedResponse())->get()));
+    }
 } else {
-	echo json_encode((new MissingFieldsOrInvalidCharactersResponse())->get());
+    die(json_encode((new MissingFieldsOrInvalidCharactersResponse())->get()));
 }
 
 ?>
