@@ -23,14 +23,3 @@ function exec_()
 }
 
 exec_();
-
-/*
-if (Checker::areSetAndValidFields($_POST['username'], $_POST['token'])) {
-    if (Database::isValidTokenForUser($_POST['username'], $_POST['token'])) {
-        exec_();
-    } else {
-        die(json_encode((new NotAuthenticatedResponse())->get()));
-    }
-} else {
-    die(json_encode((new MissingFieldsOrInvalidCharactersResponse())->get()));
-}*/
