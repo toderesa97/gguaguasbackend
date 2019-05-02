@@ -103,7 +103,7 @@ CREATE TABLE `mercedes` (
   `company` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
   `directionCompany` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
   `transferDate` date NOT NULL,
-  `transferTime` date NOT NULL,
+  `transferTime` time NOT NULL,
   `description` varchar(1000) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -132,7 +132,7 @@ CREATE TABLE `minibus` (
   `company` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
   `directionCompany` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
   `transferDate` date NOT NULL,
-  `transferTime` date NOT NULL,
+  `transferTime` time NOT NULL,
   `description` varchar(1000) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -208,7 +208,7 @@ CREATE TABLE `vtc` (
   `company` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
   `directionCompany` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
   `transferDate` date NOT NULL,
-  `transferTime` date NOT NULL,
+  `transferTime` time NOT NULL,
   `description` varchar(1000) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -221,7 +221,7 @@ INSERT INTO `vtc` (`id`, `name`, `destiny`, `origin`, `seats`, `company`, `direc
 (2, 'Carla vtc', 'Maspalomas', 'La Aldea', 10, 'rentCar', 'Vecindario', '2019-03-24', '2019-03-25', 'Carla no sabe donde se mete. La pobre...'),
 (3, 'Juan vtc', 'San Mateo', 'Gando', 8, 'PepesCar', 'Vegueta', '2019-11-20', '2019-11-22', 'Lorem Ipsum'),
 (4, 'Maria vtc', 'San Bartolomé', 'Roque Nublo', 18, 'JunitosCar', 'Guanarteme', '2019-11-14', '2019-11-17', 'Lorem Ipsum'),
-(5, 'Andrea vtc', 'aliseos', 'siete palmas', 6, 'trayectocortito', 'sietepalmas', '2019-03-25', '2019-03-25', 'Trayecto muy cortito');
+(5, 'Andrea vtc', 'alisios', 'siete palmas', 6, 'trayectocortito', 'sietepalmas', '2019-03-25', '2019-03-25', 'Trayecto muy cortito');
 
 --
 -- Índices para tablas volcadas
