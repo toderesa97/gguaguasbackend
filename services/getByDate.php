@@ -13,9 +13,9 @@ $tablaMer = 'mercedes';
 $tablaMini = 'minibus';
 $tablaVtc = 'vtc';
 
-$queryMer = "SELECT * FROM " . $tablaMer . " WHERE transferDate = ?";
-$queryMini = "SELECT * FROM " . $tablaMini . " WHERE transferDate = ?";
-$queryVtc = "SELECT * FROM " . $tablaVtc . " WHERE transferDate = ?";
+$queryMer = "SELECT * FROM " . $tablaMer . " WHERE transferDate = date(?)";
+$queryMini = "SELECT * FROM " . $tablaMini . " WHERE transferDate = date(?)";
+$queryVtc = "SELECT * FROM " . $tablaVtc . " WHERE transferDate = date(?)";
 $param = array((string)$_POST['transferDate']);
 
 
