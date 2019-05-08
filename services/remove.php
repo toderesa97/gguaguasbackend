@@ -1,19 +1,35 @@
 <?php
-include 'Database.php';
+include_once '..\libs\Database.php';
 include '../libs/DataToJson.php';
+include_once '../libs/commonResponses/NotAuthenticatedResponse.php';
+include_once '../libs/commonResponses/MissingFieldsOrInvalidCharactersResponse.php';
+
 
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers,  Access-Control-Allow-Methods, Authorization, X-Requested-With");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Origin: *");
 
-$database = new Database();
-$db = $database->getConnection();
-$tabla = $database->selectServiceTable($_POST['vehicle']);
+Database::createDatabaseInstance();
 
-$query = "DELETE FROM " . $tabla . " WHERE id = ?";
-$param = array((int)$_POST['id']);
+function exec_() {
+    $tabla = $_POST['vehicle'];
 
-$data = $database->query($query, $param);
+    $query = "DELETE FROM " . $tabla . " WHERE id = ?";
+    $param = array((int)$_POST['id']);
 
-http_response_code(200);
+    Database::executeSQL($query, $param);
+
+    http_response_code(200);
+}
+
+
+if (Checker::areSetAndValidFields($_POST['username'], $_POST['token'])) {
+    if (Database::isValidTokenForUser($_POST['username'], $_POST['token'])) {
+        exec_();
+    } else {
+        die(json_encode((new NotAuthenticatedResponse())->get()));
+    }
+} else {
+    die(json_encode((new MissingFieldsOrInvalidCharactersResponse())->get()));
+}

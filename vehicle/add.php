@@ -6,6 +6,7 @@ include_once 'customResponses/VehicleExistsResponse.php';
 include_once 'customResponses/InvalidLicensePlateFormatResponse.php';
 include_once '../libs/commonResponses/OkResponse.php';
 include_once '../libs/commonResponses/MissingFieldsOrInvalidCharactersResponse.php';
+include_once '../libs/commonResponses/NotAuthenticatedResponse.php';
 
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Origin: *");
