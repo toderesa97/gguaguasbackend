@@ -1,5 +1,5 @@
 <?php
-include 'Database.php';
+include_once '../services/Database.php';
 include '../libs/DataToJson.php';
 
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers,  Access-Control-Allow-Methods, Authorization, X-Requested-With");
