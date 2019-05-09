@@ -13,7 +13,7 @@ Database::createDatabaseInstance();
 
 function exec_() {
     if (Checker::areSetAndValidFields($_POST['id'])) {
-        $data = Database::query(sprintf("SELECT * from hotels where id=%d", $_POST['id']));
+        $data = Database::executeSQL("SELECT * from hotels where id=?", array($_POST['id']));
         if ($data) {
             foreach($data as $row) {
                 echo json_encode(array("hotelName" => $row['hotelName'], "hotelEmail" => $row['hotelEmail'],

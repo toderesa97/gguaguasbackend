@@ -5,6 +5,7 @@ include_once '../libs/Checker.php';
 include_once '../libs/commonResponses/OkResponse.php';
 include_once '../libs/commonResponses/MissingFieldsOrInvalidCharactersResponse.php';
 include_once '../libs/commonResponses/NotAuthenticatedResponse.php';
+include_once 'customResponses/HotelExistsResponse.php';
 
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Origin: *");
