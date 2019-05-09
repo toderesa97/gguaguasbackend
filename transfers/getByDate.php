@@ -20,9 +20,9 @@ function exec_() {
 
     $param = array((string)$_POST['transferDate']);
 
-    $dataMer = Database::executeSQL("SELECT * FROM " . $tablaMer . " WHERE transferDate = ?", $param);
-    $dataMini = Database::executeSQL("SELECT * FROM " . $tablaMini . " WHERE transferDate = ?", $param);
-    $dataVtc = Database::executeSQL("SELECT * FROM " . $tablaVtc . " WHERE transferDate = ?", $param);
+    $dataMer = Database::executeSQL("SELECT * FROM " . $tablaMer . " WHERE transferDate = date(?)", $param);
+    $dataMini = Database::executeSQL("SELECT * FROM " . $tablaMini . " WHERE transferDate = date(?)", $param);
+    $dataVtc = Database::executeSQL("SELECT * FROM " . $tablaVtc . " WHERE transferDate = date(?)", $param);
 
     $dataToJson = new DataToJson();
     $resultMer = $dataToJson->convert($dataMer);
