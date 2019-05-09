@@ -4,6 +4,7 @@ include_once '../libs/Database.php';
 include_once '../libs/Checker.php';
 include_once '../libs/commonResponses/CouldNotRetrieveDataResponse.php';
 include_once '../libs/commonResponses/MissingFieldsOrInvalidCharactersResponse.php';
+include_once '../libs/commonResponses/NotAuthenticatedResponse.php';
 
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Origin: *");
