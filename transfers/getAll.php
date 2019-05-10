@@ -1,5 +1,6 @@
 <?php
 
+include_once '../libs/DataToJson.php';
 include_once '../libs/Database.php';
 include_once '../libs/Checker.php';
 include_once '../libs/commonResponses/MissingFieldsOrInvalidCharactersResponse.php';
@@ -13,15 +14,12 @@ Database::createDatabaseInstance();
 
 function exec_() {
     $retrievedData = Database::executeSQL("SELECT * from transfers");
-    if ($retrievedData) {
-        $response = array();
-        foreach ($retrievedData as $row) {
-            // format response inside array using the structure key => value
-            $response[] = array('key' => 'value');
-        }
-        echo json_encode($response);
-    }
+	
+	$dataToJson = new DataToJson();
+    $result = $dataToJson->convert($retrievedData);
+	echo $result;
 }
+
 if (Checker::areSetAndValidFields($_POST['username'], $_POST['token'])) {
     if (Database::isValidTokenForUser($_POST['username'], $_POST['token'])) {
         exec_();
@@ -31,7 +29,5 @@ if (Checker::areSetAndValidFields($_POST['username'], $_POST['token'])) {
 } else {
     die(json_encode((new MissingFieldsOrInvalidCharactersResponse())->get()));
 }
-
-// functions
 
 ?>
