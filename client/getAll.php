@@ -17,7 +17,7 @@ function exec_() {
     if ($retrievedData) {
         $response = array();
         foreach ($retrievedData as $row) {
-            $response[] = array('id' => $row['id'], 'clientName' => $row['clientName'], 'cif' => $row['cif'], 'email' => $row['email'],
+            $response[] = array('clientName' => $row['clientName'], 'cif' => $row['cif'], 'email' => $row['email'],
                 'nickname' => $row['nickname']);
         }
         echo json_encode($response);
