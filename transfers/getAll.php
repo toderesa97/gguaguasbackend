@@ -1,6 +1,5 @@
 <?php
 
-include_once '../libs/DataToJson.php';
 include_once '../libs/Database.php';
 include_once '../libs/Checker.php';
 include_once '../libs/commonResponses/MissingFieldsOrInvalidCharactersResponse.php';
@@ -15,9 +14,30 @@ Database::createDatabaseInstance();
 function exec_() {
     $retrievedData = Database::executeSQL("SELECT * from transfers");
 	
-	$dataToJson = new DataToJson();
-    $result = $dataToJson->convert($retrievedData);
-	echo $result;
+	$response = array();
+	if ($retrievedData->rowCount() > 0) {
+		while ($row = $retrievedData->fetch(PDO::FETCH_ASSOC)) {
+			$response_item = array(
+				'id' => $row['id'],
+				'name' => $row['name'],
+				'destiny' => $row['destiny'],
+				'origin' => $row['origin'],
+				'seats' => $row['seats'],
+				'company' => $row['company'],
+				'directionCompany' => $row['directionCompany'],
+				'transferDate' => $row['transferDate'],
+				'transferTime' => $row['transferTime'],
+				'description' => $row['description'],
+				'driver' => $row['driver'],
+				'hotel' => $row['hotel'],
+				'vehicle' => $row['vehicle'],
+				'client' => $row['client']
+			);
+			$response[] = $response_item;
+		}
+	}
+	echo json_encode($response);
+	//echo $result;
 }
 
 if (Checker::areSetAndValidFields($_POST['username'], $_POST['token'])) {
