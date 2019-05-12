@@ -11,7 +11,7 @@ Database::createDatabaseInstance();
 
 function exec_()
 {
-    $retrievedData = Database::executeSQL("SELECT H.nickname
+    $retrievedData = Database::executeSQL("SELECT DISTINCT H.nickname
                                                     FROM hotels H, transfers T
                                                     WHERE H.hotelCif = T.hotel");
     if ($retrievedData) {
