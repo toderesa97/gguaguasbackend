@@ -12,7 +12,10 @@ header("Access-Control-Allow-Methods: GET, POST");
 Database::createDatabaseInstance();
 
 function exec_() {
-    $retrievedData = Database::executeSQL("SELECT * from transfers where vehicle=?", array($_POST['vehicle']));
+    $retrievedData = Database::executeSQL("SELECT *
+                                                    FROM transfers
+                                                    WHERE transferDate >= date(?) and transferDate <= date(?)",
+        array($_POST['transferFromDate'], $_POST['transferToDate']));
 	
 	$response = array();
 	if ($retrievedData->rowCount() > 0) {

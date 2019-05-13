@@ -9,7 +9,7 @@ class Database {
     public static function createDatabaseInstance() {
         try {
             if (Database::$pdo == null) {
-                Database::$pdo = new PDO( 'mysql:host=127.0.0.1:3306;dbname=gguaguas',
+                Database::$pdo = new PDO( 'mysql:host=127.0.0.1:3306;dbname=gguaguas2',
                     'root',
                     '',
                     array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,

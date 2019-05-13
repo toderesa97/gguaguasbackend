@@ -21,7 +21,7 @@ function exec_() {
         echo json_encode($response);
     }
 }
-if (Checker::areSetAndValidFields($_POST['username'], $_POST['token'])) {
+/*if (Checker::areSetAndValidFields($_POST['username'], $_POST['token'])) {
     if (Database::isValidTokenForUser($_POST['username'], $_POST['token'])) {
         exec_();
     } else {
@@ -29,8 +29,8 @@ if (Checker::areSetAndValidFields($_POST['username'], $_POST['token'])) {
     }
 } else {
     die(json_encode((new MissingFieldsOrInvalidCharactersResponse())->get()));
-}
-
+}*/
+exec_();
 // functions
 
 ?>
